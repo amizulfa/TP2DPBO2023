@@ -1,0 +1,413 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package komponen;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import Class.*;
+import java.awt.event.ActionEvent;
+import Class.dbConnection;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+/**
+ *
+ * @author User
+ */
+public class formProduk extends javax.swing.JFrame {
+    private int id_produk;
+    private int id_kategori;
+    private String nama_produk;
+    private String harga;
+    private String gambar;
+    private Main.Beranda mf;
+    ImageFunction imgHandler = new ImageFunction();
+    static dbConnection db = new dbConnection();
+    private File myImg;
+    /**
+     * Creates new form formProduk
+     */
+    public formProduk(Main.Beranda mf) {
+        initComponents();
+        this.mf = mf;
+        setAddForm();
+    }
+
+    public formProduk(int id_produk, Main.Beranda mf) {
+        initComponents();
+        this.id_produk = id_produk;
+        this.mf = mf;
+        setEditForm();
+    }
+
+    public void setProduk(){
+        try {
+            String sql = "SELECT * FROM produk WHERE id_produk = '"+this.id_produk+"'";
+            ResultSet res = db.selectQuery(sql);
+            while(res.next()){
+                this.id_produk = res.getInt("id_produk");
+                this.nama_produk = res.getString("nama_produk");
+                this.harga = res.getString("harga");
+                this.gambar = res.getString("gambar");
+                BufferedImage fileImg = null;
+                this.myImg = new File("src/image/Produk/"+res.getString("gambar"));
+                fileImg = ImageIO.read(this.myImg);
+                Image dimg = fileImg.getScaledInstance(90, 120,ImageFunction.SCALE_SMOOTH);
+                LabelGambar.setIcon(new javax.swing.ImageIcon(dimg));
+            }            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        } catch (IOException ex) {
+            Logger.getLogger(formProduk.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setAddForm(){
+        cbKategori.removeAllItems();
+        try{
+            String sql = "SELECT id_kategori, nama_kategori FROM kategori";
+            ResultSet res = db.selectQuery(sql);
+            while(res.next()){
+                KategoriCB kategori = new KategoriCB();
+                kategori.setId(res.getInt("id_kategori"));
+                kategori.setPosition(res.getString("nama_kategori"));
+                cbKategori.addItem(kategori);
+            }            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        labelJudul.setText("Form Tambah Data Produk");
+        btnAdd.setVisible(true);
+        btnEdit.setVisible(false);
+    }
+
+    public void setEditForm(){
+        setProduk();
+        btnAdd.setVisible(false);
+        btnCancel.setVisible(false);
+        labelJudul.setText("Form Update Data Produk");
+        upProduk.setText(this.nama_produk);
+        upHarga.setText(this.harga);
+        cbKategori.removeAllItems();
+        labelImg.setText(this.gambar);
+
+        try{
+            String sql = "SELECT id_kategori, nama_kategori FROM kategori";
+            ResultSet res = db.selectQuery(sql);
+            while(res.next()){
+                KategoriCB kategori = new KategoriCB();
+                kategori.setId(res.getInt("id_kategori"));
+                kategori.setPosition(res.getString("nama_kategori"));
+                cbKategori.addItem(kategori);
+            }            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void uploadImg(String gambar){
+        try {
+           Path copied = Paths.get("src/image/Produk/"+gambar);
+           Path originalPath = Paths.get(imgHandler.getFile().getAbsolutePath());
+           Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+         } catch (IOException e) {
+             JOptionPane.showMessageDialog(null, e.getMessage());
+             e.printStackTrace();
+         }
+   }
+
+   public void clearForm(){
+    upProduk.setText("");
+    upHarga.setText("");
+    cbKategori.setSelectedIndex(0);
+    labelImg.setText("");
+    imgHandler = new ImageFunction();
+    LabelGambar.setIcon(null);
+}
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        labelJudul = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        upProduk = new javax.swing.JTextField();
+        upHarga = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        upBrowse = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        btnEdit = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        labelImg = new javax.swing.JLabel();
+        cbKategori = new javax.swing.JComboBox<>();
+        LabelGambar = new javax.swing.JLabel();
+        btnReset = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(null);
+
+        labelJudul.setFont(new java.awt.Font("Leelawadee UI", 1, 18)); // NOI18N
+        labelJudul.setText("Form Produk");
+        getContentPane().add(labelJudul);
+        labelJudul.setBounds(90, 10, 260, 25);
+
+        jLabel2.setText("Nama Produk");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(19, 42, 73, 16);
+
+        jLabel3.setText("Harga");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(19, 93, 41, 16);
+
+        upProduk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upProdukActionPerformed(evt);
+            }
+        });
+        getContentPane().add(upProduk);
+        upProduk.setBounds(19, 59, 385, 28);
+        getContentPane().add(upHarga);
+        upHarga.setBounds(19, 115, 385, 28);
+
+        jLabel4.setText("Kategori");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(19, 160, 45, 16);
+
+        upBrowse.setText("Browse");
+        upBrowse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upBrowseActionPerformed(evt);
+            }
+        });
+        getContentPane().add(upBrowse);
+        upBrowse.setBounds(19, 215, 73, 28);
+
+        jLabel5.setText("Foto Produk");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(19, 193, 65, 16);
+
+        btnEdit.setBackground(new java.awt.Color(0, 255, 0));
+        btnEdit.setText("Update");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEdit);
+        btnEdit.setBounds(72, 332, 73, 28);
+
+        btnAdd.setBackground(new java.awt.Color(0, 0, 255));
+        btnAdd.setText("Submit");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAdd);
+        btnAdd.setBounds(157, 332, 73, 28);
+
+        btnCancel.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancel.setForeground(new java.awt.Color(0, 0, 0));
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCancel);
+        btnCancel.setBounds(331, 332, 73, 28);
+
+        labelImg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        getContentPane().add(labelImg);
+        labelImg.setBounds(110, 193, 197, 28);
+
+        cbKategori.setForeground(new java.awt.Color(51, 51, 51));
+        cbKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbKategoriActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cbKategori);
+        cbKategori.setBounds(110, 155, 294, 26);
+
+        LabelGambar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        getContentPane().add(LabelGambar);
+        LabelGambar.setBounds(313, 193, 91, 108);
+
+        btnReset.setBackground(new java.awt.Color(255, 255, 51));
+        btnReset.setForeground(new java.awt.Color(0, 0, 0));
+        btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnReset);
+        btnReset.setBounds(242, 332, 73, 28);
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Downloads\\download(1).jpg")); // NOI18N
+        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(0, 0, 440, 380);
+
+        setSize(new java.awt.Dimension(456, 418));
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void upProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upProdukActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_upProdukActionPerformed
+
+    private void upBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upBrowseActionPerformed
+        try {
+            // TODO add your handling code here:
+            imgHandler.Browse();
+            //menampilkan path gambar
+            labelImg.setText(imgHandler.getPath());
+            
+            //menampilkan gambar
+            Image see = ImageIO.read(imgHandler.getFile());
+            LabelGambar.setIcon(new ImageIcon(see.getScaledInstance(90, 120, Image.SCALE_SMOOTH)));
+        } catch (IOException ex) {
+            Logger.getLogger(formKategori.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }//GEN-LAST:event_upBrowseActionPerformed
+    
+    private void cbKategoriActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+    } 
+        
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        nama_produk = upProduk.getText();
+        id_kategori = ((KategoriCB)cbKategori.getSelectedItem()).getId();
+        harga = upHarga.getText();
+        if((nama_produk != null) && (id_kategori != 0) && (harga != null) && (imgHandler.getFile() != null)){
+            Date dNow = new Date();
+            SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
+            this.gambar = ft.format(dNow)+"_"+imgHandler.getFile().getName();
+            try{
+                uploadImg(this.gambar);
+                String sql = "INSERT INTO `produk` (`id_kategori`, `nama_produk`, `harga`, `gambar`) VALUES ( '"+id_kategori+"','"+nama_produk+"','"+harga+"','"+gambar+"')";
+                db.updateQuery(sql);
+                JOptionPane.showMessageDialog(null, "Data Berhasil Ditambah", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                clearForm();
+                this.mf.setPanel();
+                this.dispose();
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Lengkapi Form", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        nama_produk = upProduk.getText();
+        id_kategori = ((KategoriCB)cbKategori.getSelectedItem()).getId();
+        harga = upHarga.getText();
+        if((nama_produk != null) && (id_kategori != 0) && (harga != null)){
+            if(imgHandler.getFile()!=null){
+                uploadImg(this.gambar);
+            }
+            int opsi = JOptionPane.showConfirmDialog(null, "Benarkah anda ingin mengubah data ini ?", "Edit Data", JOptionPane.YES_NO_OPTION);
+            if (opsi == JOptionPane.YES_OPTION){
+                try{
+                    String sql = "UPDATE `produk` SET nama_produk = '"+nama_produk+"', id_kategori= '"+id_kategori+"', harga = '"+harga+"'  WHERE id_produk = '"+id_produk+"'";
+                    db.updateQuery(sql);
+                    JOptionPane.showMessageDialog(null, "Data Berhasil Diubah", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    clearForm();
+                    this.mf.setPanel();
+                    this.dispose();
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Lengkapi Form", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        clearForm();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(formProduk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(formProduk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(formProduk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(formProduk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LabelGambar;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JComboBox<KategoriCB> cbKategori;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel labelImg;
+    private javax.swing.JLabel labelJudul;
+    private javax.swing.JButton upBrowse;
+    private javax.swing.JTextField upHarga;
+    private javax.swing.JTextField upProduk;
+    // End of variables declaration//GEN-END:variables
+}
