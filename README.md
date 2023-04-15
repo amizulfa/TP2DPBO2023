@@ -1,9 +1,43 @@
 # TP2DPBO2023
 
+## Desain Program
 
+## Alur Program
+  Saat Program dijalankan, maka yang pertama ditampilkan adalah halaman login
+ ### Login 
+  - Jika sudah memiliki akun
+    - Mengisi field username dan password
+    - Menekan tombol `login`
+    - Jika data yang dimasukan valid dengan yang ada di database, maka akan masuk ke halaman Utama yaitu `Beranda`
+    - Jika data yang dimasukan tidak valid dengan yang ada di database, maka akan muncul pesan `Username atau Password yang dimasukan salah`
+  - Jika belum memiliki akun
+    - Maka tekan tombol `register`
+    - dan akan masuk ke halaman `register`
+### Register
+  - Mengisi field nama, username, dan password
+  - Menekan tombol `register`
+  - Setelah terdaftar, maka dapat melanjutkan ke proses login dengan menekan tombol `login`
 
-
-
+### Beranda
+  Saat halaman `Beranda` ditampilkan, maka list Produk yang akan diperlihatkan terlebih dahulu.
+  - Menekan tombol `Produk` untuk melihat list Card Produk dan dapat melakukan `Delete` serta `Update`. Dan dapat melakukan Add Data Produk jika menekan tombol `Add Produk` di bagian atas.
+  - Jika menambah data `Produk`, yang perlu diisi adalah :
+    - field `Nama produk`, `Harga`.
+    - memilih kategori dalam bentuk Combobox.
+    - menekan tombol `Browse` untuk memilih gambar, lalu akan menampilkan nama gambar beserta gambarnya.
+    - Setelah itu menekan tombol `Submit`
+  - Jika menambah data `Kategori`, yang perlu diisi adalah :
+    - field `Nama Kategori`
+    - Menekan tombol `Browse` untuk memilih gambar, lalu akan menampilkan nama gambar beserta gambarnya.
+    - Setelah itu menekan tombol `Submit`
+  - Menekan tombol `Kategori` untuk melihat list Card Kategori dan dapat melakukakn `Delete` serta `Update`. Dan dapat melakukan Add Data Kategori jika menekan tombol `Add Kategori` di bagian atas.
+  - Menekan tombol `Edit` yang ada pada card, lalu mengisi data yang akan diupdate seperti saat akan melakukan `Add Data`.
+    - Setelah itu tekan tombol `Update` untuk menyimpan data yang telah di Update.
+  - Menekan tombol `Hapus` yang ada pada Card, untuk menghapus data yan dipilih.
+    - Terdapat pesan konfirmasi, apakah yakin akan menghapus data ini. Jika `Ya`, maka data akan dihapus.
+  - Untuk logout atau keluar dari program, makak dapat menekan tombol `Logout`. Dan akan menampilkan halaman `login` kembali.
+  
+  
 
 
 ## CARD
