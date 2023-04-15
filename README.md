@@ -4,7 +4,12 @@
 > Saya Amida Zulfa Laila dengan NIM 2101147 mengerjakan Tugas Praktikum 2 dalam mata kuliah Desain Pemrograman Berorientasi Objek untuk keberkahan-Nya maka saya tidak melakukan kecurangan seperti yang telah dispesifikasikan. Aamiin.
 
 ## Desain Program
+
+- UML
 <img width="550" alt="tp2 uml" src="https://user-images.githubusercontent.com/100895165/232225838-9bf2ef4b-5e23-4fe2-919e-2f2c1e71030e.png">
+
+- Desain Database
+<img width="550" alt="image" src="https://user-images.githubusercontent.com/100895165/232227742-e16ae82d-627e-49b9-9ba3-bf60ed9fb047.png">
 
 ## Alur Program
   Saat Program dijalankan, maka yang pertama ditampilkan adalah halaman login
