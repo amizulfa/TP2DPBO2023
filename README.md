@@ -1,7 +1,10 @@
 # TP2DPBO2023
 
-## Desain Program
+# JANJI
+> Saya Amida Zulfa Laila dengan NIM 2101147 mengerjakan Tugas Praktikum 2 dalam mata kuliah Desain Pemrograman Berorientasi Objek untuk keberkahan-Nya maka saya tidak melakukan kecurangan seperti yang telah dispesifikasikan. Aamiin.
 
+## Desain Program
+- nyusul malem, lapar mau makan
 ## Alur Program
   Saat Program dijalankan, maka yang pertama ditampilkan adalah halaman login
  ### Login 
