@@ -96,5 +96,5 @@
 
 - VIDIO
 <p align="center">
-  <img src="https://github.com/amizulfa/TP2DPBO2023/blob/main/tp2.gif" alt="gif format testing"/>
+  <img src="https://github.com/amizulfa/TP2DPBO2023/blob/main/tp2-min.gif" alt="gif format testing"/>
 </p>
